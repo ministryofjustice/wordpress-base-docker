@@ -64,5 +64,4 @@ RUN mkdir /etc/service/nginx && \
 # Create bedrock directory
 RUN mkdir /bedrock
 
-VOLUME ["/bedrock"]
 EXPOSE 80
