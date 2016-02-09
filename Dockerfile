@@ -22,6 +22,7 @@ RUN apt-get update && \
         php7.0-cli php7.0-fpm php7.0-curl php7.0-mysql php7.0-gd php7.0-mcrypt php7.0-readline \
         nginx \
         nodejs npm \
+        python-pip libfuse-dev \
         git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /init
@@ -34,6 +35,9 @@ RUN curl -sS https://getcomposer.org/installer | php && \
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
     chmod +x wp-cli.phar && \
     mv wp-cli.phar /usr/local/bin/wp
+
+# Install yas3fs
+RUN pip install yas3fs
 
 ###
 # CONFIGURE PACKAGES
@@ -56,10 +60,13 @@ RUN rm /etc/php/7.0/fpm/pool.d/www.conf
 ADD service/* /etc/service/
 RUN mkdir /etc/service/nginx && \
     mkdir /etc/service/php-fpm && \
+    mkdir /etc/service/yas3fs && \
     mv /etc/service/nginx.sh /etc/service/nginx/run && \
     mv /etc/service/php-fpm.sh /etc/service/php-fpm/run && \
+    mv /etc/service/yas3fs.sh /etc/service/yas3fs/run && \
     chmod +x /etc/service/nginx/run && \
-    chmod +x /etc/service/php-fpm/run
+    chmod +x /etc/service/php-fpm/run && \
+    chmod +x /etc/service/yas3fs/run
 
 # Create bedrock directory
 RUN mkdir /bedrock
