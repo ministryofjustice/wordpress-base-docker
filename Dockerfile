@@ -23,7 +23,7 @@ RUN apt-get update && \
         nginx \
         nodejs npm \
         python-pip libfuse-dev \
-        git && \
+        git nano && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /init
 
@@ -55,6 +55,10 @@ ADD conf/php-fpm/php-fpm.conf /etc/php/7.0/fpm
 ADD conf/php-fpm/php.ini /etc/php/7.0/fpm
 ADD conf/php-fpm/pool.conf /etc/php/7.0/fpm/pool.d
 RUN rm /etc/php/7.0/fpm/pool.d/www.conf
+
+# Configure bash
+RUN echo "export TERM=xterm" >> /etc/bash.bashrc && \
+    echo "alias wp=\"wp --allow-root\"" > /root/.bash_aliases
 
 # Configure services
 ADD service/* /etc/service/
