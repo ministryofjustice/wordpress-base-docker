@@ -17,16 +17,16 @@ RUN apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     add-apt-repository -y ppa:ondrej/php && \
     add-apt-repository -y ppa:nginx/stable && \
+    curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash - && \
     apt-get update && \
     apt-get install -y \
         php7.0-cli php7.0-fpm php7.0-curl php7.0-mysql php7.0-gd php7.0-mcrypt php7.0-readline \
         nginx \
-        nodejs npm \
         python-pip libfuse-dev \
-        git nano && \
+        git nano \
+        nodejs build-essential && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /init && \
-    ln -s /usr/bin/nodejs /usr/bin/node
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /init
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php && \
@@ -45,7 +45,7 @@ RUN pip install yas3fs
 ###
 
 # Configure nginx
-ADD conf/nginx/server.conf /etc/nginx/sites-available/
+ADD conf/nginx/server.conf /etc/nginx/sites-available/ 
 ADD conf/nginx/http.conf /etc/nginx/conf.d/
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
     rm /etc/nginx/sites-enabled/default && \
