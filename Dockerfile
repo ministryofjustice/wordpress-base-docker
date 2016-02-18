@@ -25,7 +25,8 @@ RUN apt-get update && \
         python-pip libfuse-dev \
         git nano && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /init
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /init && \
+    ln -s /usr/bin/nodejs /usr/bin/node
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php && \
