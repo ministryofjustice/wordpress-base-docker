@@ -57,6 +57,9 @@ ADD conf/php-fpm/php.ini /etc/php/7.0/fpm
 ADD conf/php-fpm/pool.conf /etc/php/7.0/fpm/pool.d
 RUN rm /etc/php/7.0/fpm/pool.d/www.conf
 
+# Configure cron tasks
+ADD conf/cron.d/* /etc/cron.d/
+
 # Configure bash
 RUN echo "export TERM=xterm" >> /etc/bash.bashrc && \
     echo "alias wp=\"wp --allow-root\"" > /root/.bash_aliases
