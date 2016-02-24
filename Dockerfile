@@ -23,6 +23,7 @@ RUN apt-get update && \
         php7.0-cli php7.0-fpm php7.0-curl php7.0-mysql php7.0-gd php7.0-mcrypt php7.0-readline \
         nginx \
         python-pip libfuse-dev \
+        nullmailer \
         git nano \
         nodejs build-essential && \
     apt-get clean && \
@@ -60,6 +61,10 @@ RUN rm /etc/php/7.0/fpm/pool.d/www.conf
 # Configure cron tasks
 ADD conf/cron.d/* /etc/cron.d/
 
+# Configure init scripts
+ADD init/* /etc/my_init.d/
+RUN chmod +x /etc/my_init.d/*
+
 # Configure bash
 RUN echo "export TERM=xterm" >> /etc/bash.bashrc && \
     echo "alias wp=\"wp --allow-root\"" > /root/.bash_aliases
@@ -67,12 +72,15 @@ RUN echo "export TERM=xterm" >> /etc/bash.bashrc && \
 # Configure services
 ADD service/* /etc/service/
 RUN mkdir /etc/service/nginx && \
+    mkdir /etc/service/nullmailer && \
     mkdir /etc/service/php-fpm && \
     mkdir /etc/service/yas3fs && \
     mv /etc/service/nginx.sh /etc/service/nginx/run && \
+    mv /etc/service/nullmailer.sh /etc/service/nullmailer/run && \
     mv /etc/service/php-fpm.sh /etc/service/php-fpm/run && \
     mv /etc/service/yas3fs.sh /etc/service/yas3fs/run && \
     chmod +x /etc/service/nginx/run && \
+    chmod +x /etc/service/nullmailer/run && \
     chmod +x /etc/service/php-fpm/run && \
     chmod +x /etc/service/yas3fs/run
 
