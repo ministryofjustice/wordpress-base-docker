@@ -46,8 +46,10 @@ RUN pip install yas3fs
 ###
 
 # Configure nginx
-ADD conf/nginx/server.conf /etc/nginx/sites-available/ 
+ADD conf/nginx/server.conf /etc/nginx/sites-available/
 ADD conf/nginx/http.conf /etc/nginx/conf.d/
+ADD conf/nginx/pingdom.conf /etc/nginx/conf.d/
+
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
     rm /etc/nginx/sites-enabled/default && \
     ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server.conf
