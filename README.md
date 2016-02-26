@@ -18,6 +18,7 @@ This image expects the following environment variables to be declared:
 | `AWS_ACCESS_KEY_ID` <br/> `AWS_SECRET_ACCESS_KEY` | AWS access key credentials – requires CRUD permissions on the specified S3 bucket.  |
 | `AWS_S3_BUCKET` | Name of the AWS S3 bucket to be used for storage of items uploaded to the WordPress media library. |
 | `SMTP_HOST` <br/> `SMTP_PORT`&nbsp;*(optional)* <br/> `SMTP_USER` <br/> `SMTP_PASS` <br/> `SMTP_USE_STARTTLS`&nbsp;*(optional)* <br/> `SMTP_USE_SSL`&nbsp;*(optional)* | SMTP settings to use for outgoing emails. <br/><br/> If not supplied, `SMTP_PORT` will default to 25. <br/><br/> `SMTP_USE_STARTTLS` and `SMTP_USE_SSL` are optional but mutually exclusive. <br/> It's highly recommended that you use one! *(You weren't planning on sending those credentials in plain text, now, were you?)* |
+| `WHITELIST_IPS` | A comma-separated list of IP addresses which should be granted access to the WordPress login page (`/wp/wp-login.php`) |
 
 ### Example env file
 
@@ -34,4 +35,6 @@ SMTP_HOST=smtp.example.com
 SMTP_USER=username
 SMTP_PASS=secret
 SMTP_USE_STARTTLS=true
+
+WHITELIST_IPS=192.168.99.1,93.184.216.34
 ```
