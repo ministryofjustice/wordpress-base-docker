@@ -47,10 +47,11 @@ RUN pip install yas3fs
 
 # Configure nginx
 ADD conf/nginx/server.conf /etc/nginx/sites-available/
-ADD conf/nginx/http.conf /etc/nginx/conf.d/
-ADD conf/nginx/pingdom.conf /etc/nginx/conf.d/
+ADD conf/nginx/php-fpm.conf /etc/nginx/
+ADD conf/nginx/pingdom.conf /etc/nginx/whitelists/
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
+    echo "# No frontend IP whitelist configured. Come one, come all!" > /etc/nginx/whitelist-frontend.conf && \
     rm /etc/nginx/sites-enabled/default && \
     ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server.conf
 
