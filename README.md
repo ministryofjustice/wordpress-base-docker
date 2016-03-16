@@ -25,6 +25,9 @@ This image expects the following environment variables to be declared:
 ```ini
 SERVER_NAME=example.com
 
+#The IP range of the load balancers. Used for setting the real client IP.
+LB_IP_RANGE=192.168.1.0/24
+
 # AWS access keys
 AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
 AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY

@@ -13,10 +13,19 @@
 ##
 
 # Whitelist localhost
-echo "allow 127.0.0.1;" > /etc/nginx/whitelist.conf;
+if [ ! -z "$LB_IP_RANGE" ]
+then
+	echo "#Set trusted sources that can set the RealIP e.g loadbalancer"
+	echo "set_real_ip_from ${LB_IP_RANGE};" > /etc/nginx/whitelist.conf
+	echo "real_ip_header X-Forwarded-For;" >> /etc/nginx/whitelist.conf
+	echo "real_ip_recursive on;" >> /etc/nginx/whitelist.conf
+fi
+
+echo "allow 127.0.0.1;" >> /etc/nginx/whitelist.conf;
 
 # Whitelist Pingdom
 echo "include /etc/nginx/whitelists/pingdom.conf;" >> /etc/nginx/whitelist.conf
+
 
 # Whitelist IPs from the environment
 if [ ! -z "$WHITELIST_IPS" ]
