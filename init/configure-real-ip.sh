@@ -10,7 +10,7 @@
 
 if [ ! -z "$LB_IP_RANGE" ]
 then
-	echo "#Set trusted sources that can set the RealIP e.g loadbalancer"
+	echo "Set trusted sources that can set the RealIP e.g loadbalancer at ${LB_IP_RANGE}"
 	echo "set_real_ip_from ${LB_IP_RANGE};" > /etc/nginx/real_ip.conf
 	echo "real_ip_header X-Forwarded-For;" >> /etc/nginx/real_ip.conf
 	echo "real_ip_recursive on;" >> /etc/nginx/real_ip.conf
