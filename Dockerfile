@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.18
+FROM phusion/baseimage:0.9.19
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
@@ -13,13 +13,12 @@ ENV LC_ALL="en_GB.UTF-8" \
 ###
 
 # Upgrade & install packages
-RUN apt-get update && \
-    apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
-    add-apt-repository -y ppa:ondrej/php && \
+RUN add-apt-repository -y ppa:ondrej/php && \
     add-apt-repository -y ppa:nginx/stable && \
-    curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash - && \
+    curl -sL https://deb.nodesource.com/setup_5.x | bash - && \
     apt-get update && \
-    apt-get install -y \
+    apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
         php7.0-cli php7.0-fpm php7.0-curl php7.0-mysql php7.0-gd php7.0-mcrypt php7.0-readline php-zip php-xml php-mbstring \
         nginx nginx-extras\
         python-pip libfuse-dev \
@@ -52,8 +51,11 @@ ADD conf/nginx/pingdom.conf /etc/nginx/whitelists/
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
     echo "# No frontend IP whitelist configured. Come one, come all!" > /etc/nginx/whitelist-frontend.conf && \
+    echo "# This file is configured at runtime." > /etc/nginx/real_ip.conf && \
     rm /etc/nginx/sites-enabled/default && \
-    ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server.conf
+    ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server.conf && \
+    ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Configure php-fpm
 ADD conf/php-fpm/php-fpm.conf /etc/php/7.0/fpm
