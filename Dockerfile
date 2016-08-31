@@ -19,7 +19,7 @@ RUN add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        php7.0-cli php7.0-fpm php7.0-curl php7.0-mysql php7.0-gd php7.0-mcrypt php7.0-readline php-zip php-xml php-mbstring \
+        php7.0-cli php7.0-curl php7.0-fpm php7.0-gd php-mbstring php7.0-mcrypt php7.0-mysql php7.0-readline php-xdebug php-xml php-zip \
         nginx nginx-extras\
         python-pip libfuse-dev \
         nullmailer \
@@ -44,12 +44,15 @@ RUN pip install yas3fs
 # CONFIGURE PACKAGES
 ###
 
-# Configure nginx
-ADD conf/nginx/server.conf /etc/nginx/sites-available/
-ADD conf/nginx/php-fpm.conf /etc/nginx/
-ADD conf/nginx/pingdom.conf /etc/nginx/whitelists/
+# Add all config files
+ADD conf/ /tmp/conf
 
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
+# Configure nginx
+RUN mv /tmp/conf/nginx/server.conf /etc/nginx/sites-available/ && \
+    mv /tmp/conf/nginx/php-fpm.conf /etc/nginx/ && \
+    mkdir /etc/nginx/whitelists/ && \
+    mv /tmp/conf/nginx/pingdom.conf /etc/nginx/whitelists/ && \
+    echo "daemon off;" >> /etc/nginx/nginx.conf && \
     echo "# No frontend IP whitelist configured. Come one, come all!" > /etc/nginx/whitelist-frontend.conf && \
     echo "# This file is configured at runtime." > /etc/nginx/real_ip.conf && \
     rm /etc/nginx/sites-enabled/default && \
@@ -58,23 +61,34 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Configure php-fpm
-ADD conf/php-fpm/php-fpm.conf /etc/php/7.0/fpm
-ADD conf/php-fpm/php.ini /etc/php/7.0/fpm
-ADD conf/php-fpm/pool.conf /etc/php/7.0/fpm/pool.d
-RUN rm /etc/php/7.0/fpm/pool.d/www.conf
+RUN mv /tmp/conf/php-fpm/php-fpm.conf /etc/php/7.0/fpm && \
+    mv /tmp/conf/php-fpm/php.ini /etc/php/7.0/fpm && \
+    mv /tmp/conf/php-fpm/pool.conf /etc/php/7.0/fpm/pool.d && \
+    rm /etc/php/7.0/fpm/pool.d/www.conf && \
+    cat /tmp/conf/php-fpm/xdebug.ini >> /etc/php/7.0/mods-available/xdebug.ini && \
+    phpdismod xdebug
 
 # Configure cron tasks
-ADD conf/cron.d/* /etc/cron.d/
-
-# Configure init scripts
-ADD init/* /etc/my_init.d/
-RUN chmod +x /etc/my_init.d/*
+RUN mv /tmp/conf/cron.d/* /etc/cron.d/
 
 # Configure bash
 RUN echo "export TERM=xterm" >> /etc/bash.bashrc && \
     echo "alias wp=\"wp --allow-root\"" > /root/.bash_aliases
 
-# Configure services
+# Cleanup /tmp/conf
+RUN rm -Rf /tmp/conf
+
+###
+# CONFIGURE INIT SCRIPTS
+###
+
+ADD init/* /etc/my_init.d/
+RUN chmod +x /etc/my_init.d/*
+
+###
+# CONFIGURE SERVICES
+###
+
 ADD service/* /etc/service/
 RUN mkdir /etc/service/nginx && \
     mkdir /etc/service/nullmailer && \
