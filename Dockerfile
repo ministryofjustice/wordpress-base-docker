@@ -53,7 +53,7 @@ RUN mv /tmp/conf/nginx/server.conf /etc/nginx/sites-available/ && \
     mkdir /etc/nginx/whitelists/ && \
     mv /tmp/conf/nginx/pingdom.conf /etc/nginx/whitelists/ && \
     echo "daemon off;" >> /etc/nginx/nginx.conf && \
-    echo "# No frontend IP whitelist configured. Come one, come all!" > /etc/nginx/whitelist-frontend.conf && \
+    echo "# No frontend IP whitelist configured. Come one, come all!" > /etc/nginx/whitelists/site-wide.conf && \
     echo "# This file is configured at runtime." > /etc/nginx/real_ip.conf && \
     rm /etc/nginx/sites-enabled/default && \
     ln -s /etc/nginx/sites-available/server.conf /etc/nginx/sites-enabled/server.conf && \
