@@ -32,9 +32,9 @@ Configuration for storage of file uploads in the WordPress media library.
 | `AWS_S3_BUCKET`         |          | Name of the S3 bucket to use for file uploads. If not set, S3 will not be mounted. |
 | `AWS_ACCESS_KEY_ID`     |          | AWS access key ID. Must have permission to read/write to the specified S3 bucket, and optionally pub/sub to SNS and SQS. |
 | `AWS_SECRET_ACCESS_KEY` |          | AWS secret access key |
+| `AWS_DEFAULT_REGION`    |          | Default region when creating resources. Used by yas3fs when creating SQS queues. |
 | `S3_UPLOADS_BASE_URL`   |          | URL to the `uploads` directory in the S3 bucket, without a trailing slash – e.g. `https://s3-eu-west-1.amazonaws.com/example-bucket/uploads` |
 | `SNS_TOPIC`             |          | ARN for SNS topic – e.g. `arn:aws:sns:eu-west-1:123456789012:topic-name`. If not set, SNS/SQS will not be used. |
-| `SQS_QUEUE`             |          | SQS queue name. Only used if `SNS_TOPIC` is also set. |
 
 ### Mail configuration
 
@@ -66,10 +66,10 @@ SERVER_NAME=example.com
 # AWS file storage
 AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
 AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+AWS_DEFAULT_REGION=eu-west-1
 AWS_S3_BUCKET=example-bucket
 S3_UPLOADS_BASE_URL=https://s3-eu-west-1.amazonaws.com/example-bucket/uploads
 SNS_TOPIC=arn:aws:sns:eu-west-1:123456789012:example-topic
-SQS_QUEUE=example-queue
 
 # Mail configuration
 SMTP_HOST=smtp.example.com
