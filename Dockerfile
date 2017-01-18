@@ -19,7 +19,7 @@ RUN add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        php7.0-cli php7.0-curl php7.0-fpm php7.0-gd php-mbstring php7.0-mcrypt php7.0-mysql php7.0-readline php-xdebug php-xml php-zip \
+        php7.0-cli php7.0-curl php7.0-fpm php7.0-gd php-mbstring php7.0-mcrypt php7.0-mysql php7.0-readline php-xdebug php7.0-xml php7.0-zip \
         nginx nginx-extras\
         python-pip libfuse-dev \
         nullmailer \
@@ -38,7 +38,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     mv wp-cli.phar /usr/local/bin/wp
 
 # Install yas3fs
-RUN pip install yas3fs
+# Note: using the master branch because there are changes waiting for release
+RUN pip install git+https://github.com/danilop/yas3fs.git@master
 
 ###
 # CONFIGURE PACKAGES
