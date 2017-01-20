@@ -4,7 +4,7 @@
 # Generate the whitelists for nginx
 # These are generated at runtime based on environment variables
 #
-# LOGIN_WHITELIST_IPS - Whitelist the wp-login page (required)
+# LOGIN_WHITELIST_IPS - Whitelist the wp-login page (optional, default open to public)
 # SITE_WHITELIST_IPS  - Whitelist the whole site (optional, default open to public)
 #
 # Define which IPs you want whitelisted in the relevant environment varables.
@@ -41,7 +41,10 @@ generate_whitelist() {
 	echo "deny all;"
 }
 
-generate_whitelist "$LOGIN_WHITELIST_IPS" > /etc/nginx/whitelists/wp-login.conf
+if [ ! -z "$LOGIN_WHITELIST_IPS" ]
+then
+	generate_whitelist "$LOGIN_WHITELIST_IPS" > /etc/nginx/whitelists/wp-login.conf
+fi
 
 if [ ! -z "$SITE_WHITELIST_IPS" ]
 then

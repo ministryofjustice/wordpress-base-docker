@@ -54,7 +54,7 @@ SMTP settings to use for outgoing emails.
 | Name                  | Required | Description |
 | --------------------- | -------- | ----------- |
 | `LB_IP_RANGE`         |          | The IP range of the load balancers. Used by [nginx real-ip module](https://nginx.org/en/docs/http/ngx_http_realip_module.html) for setting the real client IP, to allow whitelists to work correctly. <br/> **Important:** Only set this when the docker container is running behind a load balancer! |
-| `LOGIN_WHITELIST_IPS` | Yes      | A comma-separated list of IP addresses that should be allowed to access the WordPress login page (`/wp/wp-login.php`) |
+| `LOGIN_WHITELIST_IPS` |          | A comma-separated list of IP addresses that should be allowed to access the WordPress login page (`/wp/wp-login.php`) |
 | `SITE_WHITELIST_IPS`  |          | A comma-separated list of IP addresses to whitelist the entire website. Disabled by default – i.e. the website will be publicly accessible. |
 
 ### Example env file
