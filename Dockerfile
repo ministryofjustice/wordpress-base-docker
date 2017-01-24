@@ -78,6 +78,10 @@ RUN mv /tmp/conf/cron.d/* /etc/cron.d/
 RUN echo "export TERM=xterm" >> /etc/bash.bashrc && \
     echo "alias wp=\"wp --allow-root\"" > /root/.bash_aliases
 
+# Fix bug where logrotate config which causes noisy cron output
+# More info: https://github.com/phusion/baseimage-docker/pull/341
+RUN sed -i 's/syslog/adm/g' /etc/logrotate.conf
+
 # Cleanup /tmp/conf
 RUN rm -Rf /tmp/conf
 
