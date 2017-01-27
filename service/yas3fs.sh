@@ -9,7 +9,7 @@ then
 fi
 
 # Define the S3 endpoint URI
-if [ "$AWS_DEFAULT_REGION" == "us-east-1" ]
+if [ "$AWS_DEFAULT_REGION" = "us-east-1" ]
 then
 	S3_ENDPOINT="s3.amazonaws.com"
 else
