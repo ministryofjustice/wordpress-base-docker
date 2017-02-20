@@ -24,6 +24,12 @@ generate_whitelist() {
 	# Whitelist localhost
 	echo "allow 127.0.0.1;"
 
+	# Whitelist load balancers (to allow for ELB health checks)
+	if [ ! -z "$LB_IP_RANGE" ]
+	then
+		echo "allow ${LB_IP_RANGE};"
+	fi
+
 	# Whitelist pingdom
 	echo "include /etc/nginx/whitelists/pingdom.conf;"
 
