@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.19
+FROM phusion/baseimage:0.9.21
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
@@ -19,7 +19,7 @@ RUN add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        php7.0-cli php7.0-curl php7.0-fpm php7.0-gd php-mbstring php7.0-mcrypt php7.0-mysql php7.0-readline php-xdebug php7.0-xml php7.0-zip \
+        php7.1-cli php7.1-curl php7.1-fpm php7.1-gd php-mbstring php7.1-mcrypt php7.1-mysql php7.1-readline php-xdebug php7.1-xml php7.1-zip php-imagick \
         nginx nginx-extras\
         python-pip libfuse-dev \
         nullmailer \
@@ -39,8 +39,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
     mv wp-cli.phar /usr/local/bin/wp
 
 # Install yas3fs
-# Note: using the master branch because there are changes waiting for release
-RUN pip install git+https://github.com/danilop/yas3fs.git@master
+# Note: using a specific commit from master because there are changes waiting for release
+RUN pip install git+https://github.com/danilop/yas3fs.git@c628f647aff087d708af1df68f8b070992df1d4f
 
 ###
 # CONFIGURE PACKAGES
@@ -64,11 +64,11 @@ RUN mv /tmp/conf/nginx/server.conf /etc/nginx/sites-available/ && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Configure php-fpm
-RUN mv /tmp/conf/php-fpm/php-fpm.conf /etc/php/7.0/fpm && \
-    mv /tmp/conf/php-fpm/php.ini /etc/php/7.0/fpm && \
-    mv /tmp/conf/php-fpm/pool.conf /etc/php/7.0/fpm/pool.d && \
-    rm /etc/php/7.0/fpm/pool.d/www.conf && \
-    cat /tmp/conf/php-fpm/xdebug.ini >> /etc/php/7.0/mods-available/xdebug.ini && \
+RUN mv /tmp/conf/php-fpm/php-fpm.conf /etc/php/7.1/fpm && \
+    mv /tmp/conf/php-fpm/php.ini /etc/php/7.1/fpm && \
+    mv /tmp/conf/php-fpm/pool.conf /etc/php/7.1/fpm/pool.d && \
+    rm /etc/php/7.1/fpm/pool.d/www.conf && \
+    cat /tmp/conf/php-fpm/xdebug.ini >> /etc/php/7.1/mods-available/xdebug.ini && \
     phpdismod xdebug
 
 # Configure cron tasks
@@ -77,10 +77,6 @@ RUN mv /tmp/conf/cron.d/* /etc/cron.d/
 # Configure bash
 RUN echo "export TERM=xterm" >> /etc/bash.bashrc && \
     echo "alias wp=\"wp --allow-root\"" > /root/.bash_aliases
-
-# Fix bug where logrotate config which causes noisy cron output
-# More info: https://github.com/phusion/baseimage-docker/pull/341
-RUN sed -i 's/syslog/adm/g' /etc/logrotate.conf
 
 # Cleanup /tmp/conf
 RUN rm -Rf /tmp/conf
