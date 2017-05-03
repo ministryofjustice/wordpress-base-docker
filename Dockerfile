@@ -106,6 +106,9 @@ RUN mkdir /etc/service/nginx && \
     chmod +x /etc/service/php-fpm/run && \
     chmod +x /etc/service/yas3fs/run
 
+# Put a dummy file in /tmp directory to stop yas3fs from deleting /tmp
+RUN echo "This file exists to ensure that yas3fs doesn't delete the /tmp directory." > /tmp/keeptmp
+
 # Create bedrock directory
 RUN mkdir /bedrock
 
