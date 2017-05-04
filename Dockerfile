@@ -107,7 +107,9 @@ RUN mkdir /etc/service/nginx && \
     chmod +x /etc/service/yas3fs/run
 
 # Put a dummy file in /tmp directory to stop yas3fs from deleting /tmp
-RUN echo "This file exists to ensure that yas3fs doesn't delete the /tmp directory." > /tmp/keeptmp
+# This can be removed once the bug with yas3fs is fix, and the version of yas3fs used in this image is updated
+# Issue: https://github.com/danilop/yas3fs/issues/150
+RUN echo "This file exists to ensure that yas3fs doesn't delete the /tmp directory. For more info see comments in the wordpress-base Dockerfile." > /tmp/keeptmp
 
 # Create bedrock directory
 RUN mkdir /bedrock
