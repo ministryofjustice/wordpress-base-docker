@@ -76,7 +76,8 @@ RUN mv /tmp/conf/cron.d/* /etc/cron.d/
 
 # Configure bash
 RUN echo "export TERM=xterm" >> /etc/bash.bashrc && \
-    echo "alias wp=\"wp --allow-root\"" > /root/.bash_aliases
+    echo "alias wp=\"wp --allow-root\"" > /root/.bash_aliases && \
+    sed -i -e 's/@\\h:/@\$\{SERVER_NAME\}:/' /root/.bashrc
 
 # Cleanup /tmp/conf
 RUN rm -Rf /tmp/conf
