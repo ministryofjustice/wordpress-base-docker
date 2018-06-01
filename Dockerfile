@@ -53,7 +53,6 @@ ADD conf/ /tmp/conf
 RUN mv /tmp/conf/nginx/server.conf /etc/nginx/sites-available/ && \
     mv /tmp/conf/nginx/php-fpm.conf /etc/nginx/ && \
     mkdir /etc/nginx/whitelists/ && \
-    mv /tmp/conf/nginx/pingdom.conf /etc/nginx/whitelists/ && \
     echo "daemon off;" >> /etc/nginx/nginx.conf && \
     echo "# No frontend IP whitelist configured. Come one, come all!" > /etc/nginx/whitelists/site-wide.conf && \
     echo "# No login IP whitelist configured. Come one, come all!" > /etc/nginx/whitelists/wp-login.conf && \
@@ -110,6 +109,16 @@ RUN mkdir /etc/service/nginx && \
 # This can be removed once the bug with yas3fs is fix, and the version of yas3fs used in this image is updated
 # Issue: https://github.com/danilop/yas3fs/issues/150
 RUN echo "This file exists to ensure that yas3fs doesn't delete the /tmp directory. For more info see comments in the wordpress-base Dockerfile." > /tmp/keeptmp
+
+###
+# BUILD TIME COMMANDS
+###
+
+# Generate the Pingdom IP address whitelist
+ADD build/ /tmp/build
+RUN chmod +x /tmp/build/generate-pingdom-whitelist.sh && \
+    /tmp/build/generate-pingdom-whitelist.sh /etc/nginx/whitelists/pingdom.conf && \
+    rm -rf /tmp/build
 
 # Create bedrock directory
 RUN mkdir /bedrock
