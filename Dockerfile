@@ -19,7 +19,7 @@ RUN add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        php7.1-cli php7.1-curl php7.1-fpm php7.1-gd php-mbstring php7.1-mcrypt php7.1-mysql php7.1-readline php-xdebug php7.1-xml php7.1-zip php-imagick \
+        php7.1-cli php7.1-curl php7.1-fpm php7.1-gd php7.1-mbstring php7.1-mcrypt php7.1-mysql php7.1-readline php-xdebug php7.1-xml php7.1-zip php-imagick \
         nginx nginx-extras\
         python-pip libfuse-dev \
         nullmailer \
@@ -117,7 +117,7 @@ RUN echo "This file exists to ensure that yas3fs doesn't delete the /tmp directo
 
 # Generate the Pingdom IP address whitelist
 ADD build/ /tmp/build
-RUN chmod +x /tmp/build/generate-pingdom-whitelist.sh && \
+RUN chmod +x /tmp/build/generate-pingdom-whitelist.sh && sleep 1 && \
     /tmp/build/generate-pingdom-whitelist.sh /etc/nginx/whitelists/pingdom.conf && \
     rm -rf /tmp/build
 
