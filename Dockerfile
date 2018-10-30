@@ -78,6 +78,9 @@ RUN echo "export TERM=xterm" >> /etc/bash.bashrc && \
     echo "alias wp=\"wp --allow-root\"" > /root/.bash_aliases && \
     sed -i -e 's/@\\h:/@\$\{SERVER_NAME\}:/' /root/.bashrc
 
+# Configure ImageMagick
+RUN mv /tmp/conf/ImageMagick-6/policy.xml /etc/ImageMagick-6/policy.xml
+
 # Cleanup /tmp/conf
 RUN rm -Rf /tmp/conf
 
