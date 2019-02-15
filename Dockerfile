@@ -24,7 +24,7 @@ RUN add-apt-repository -y ppa:ondrej/php && \
         python-pip libfuse-dev \
         nullmailer \
         git nano \
-        mariadb-client-10.0 \
+        mariadb-client-10.1 \
         nodejs build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /init
