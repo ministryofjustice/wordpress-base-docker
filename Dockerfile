@@ -15,7 +15,7 @@ ENV LC_ALL="en_GB.UTF-8" \
 # Upgrade & install packages
 RUN add-apt-repository -y ppa:ondrej/php && \
     add-apt-repository -y ppa:nginx/stable && \
-    curl -sL https://deb.nodesource.com/setup_5.x | bash - && \
+    curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
