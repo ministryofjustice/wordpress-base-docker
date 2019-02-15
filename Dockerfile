@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.21
+FROM phusion/baseimage:0.10.0
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
@@ -19,7 +19,7 @@ RUN add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        php7.1-cli php7.1-curl php7.1-fpm php7.1-gd php7.1-mbstring php7.1-mcrypt php7.1-mysql php7.1-readline php-xdebug php7.1-xml php7.1-zip php-imagick \
+        php7.3-cli php7.3-curl php7.3-fpm php7.3-gd php7.3-mbstring php7.3-mcrypt php7.3-mysql php7.3-readline php-xdebug php7.3-xml php7.3-zip php-imagick \
         nginx nginx-extras\
         python-pip libfuse-dev \
         nullmailer \
@@ -63,11 +63,11 @@ RUN mv /tmp/conf/nginx/server.conf /etc/nginx/sites-available/ && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Configure php-fpm
-RUN mv /tmp/conf/php-fpm/php-fpm.conf /etc/php/7.1/fpm && \
-    mv /tmp/conf/php-fpm/php.ini /etc/php/7.1/fpm && \
-    mv /tmp/conf/php-fpm/pool.conf /etc/php/7.1/fpm/pool.d && \
-    rm /etc/php/7.1/fpm/pool.d/www.conf && \
-    cat /tmp/conf/php-fpm/xdebug.ini >> /etc/php/7.1/mods-available/xdebug.ini && \
+RUN mv /tmp/conf/php-fpm/php-fpm.conf /etc/php/7.3/fpm && \
+    mv /tmp/conf/php-fpm/php.ini /etc/php/7.3/fpm && \
+    mv /tmp/conf/php-fpm/pool.conf /etc/php/7.3/fpm/pool.d && \
+    rm /etc/php/7.3/fpm/pool.d/www.conf && \
+    cat /tmp/conf/php-fpm/xdebug.ini >> /etc/php/7.3/mods-available/xdebug.ini && \
     phpdismod xdebug
 
 # Configure cron tasks
