@@ -40,7 +40,8 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 
 # Install yas3fs
 # Note: using a specific commit from master because there are changes waiting for release
-RUN pip install git+https://github.com/danilop/yas3fs.git@c628f647aff087d708af1df68f8b070992df1d4f
+# Note (20/03/2019) removed specific commit - now on master
+RUN pip install git+https://github.com/danilop/yas3fs.git
 
 ###
 # CONFIGURE PACKAGES
