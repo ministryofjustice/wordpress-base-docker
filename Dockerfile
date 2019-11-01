@@ -19,13 +19,13 @@ RUN add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        php7.3-cli php7.3-curl php7.3-fpm php7.3-gd php7.3-mbstring php7.3-mysql php7.3-readline php-xdebug php7.3-xml php7.3-zip php-imagick \
-        nginx nginx-extras\
-        python-pip libfuse-dev \
-        nullmailer \
-        git nano \
-        mariadb-client-10.1 \
-        nodejs build-essential && \
+    php7.3-cli php7.3-curl php7.3-fpm php7.3-gd php7.3-mbstring php7.3-mysql php7.3-readline php-xdebug php7.3-xml php7.3-zip php-imagick \
+    nginx nginx-extras\
+    python-pip libfuse-dev \
+    nullmailer \
+    git nano \
+    mariadb-client-10.1 \
+    nodejs build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /init
 
