@@ -61,7 +61,7 @@ SMTP settings to use for outgoing emails.
 
 ```ini
 # Server configuration
-SERVER_NAME=example.com
+SERVER_NAME=example.co.uk
 
 # AWS file storage
 AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
