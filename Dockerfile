@@ -9,7 +9,7 @@ ENV LC_ALL="en_GB.UTF-8" \
     LANGUAGE="en_GB.UTF-8"
 
 ###
-# INSTALL PACKAGES
+# INSTALL PACKAGES.
 ###
 
 # Upgrade & install packages
