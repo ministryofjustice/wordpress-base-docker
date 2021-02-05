@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.11
+FROM phusion/baseimage:master-amd64
 
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
@@ -14,18 +14,19 @@ ENV LC_ALL="en_GB.UTF-8" \
 
 # Upgrade & install packages
 RUN add-apt-repository -y ppa:ondrej/php && \
-    add-apt-repository -y ppa:nginx/stable && \
+    add-apt-repository -y ppa:ondrej/nginx && \
     curl -sL https://deb.nodesource.com/setup_12.x | bash - && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    php7.3-cli php7.3-curl php7.3-fpm php7.3-gd php7.3-mbstring php7.3-mysql php7.3-readline php-xdebug php7.3-xml php7.3-zip php-imagick \
-    nginx nginx-extras\
-    python-pip libfuse-dev \
-    nullmailer \
-    git nano \
-    mariadb-client-10.1 \
-    nodejs build-essential && \
+        php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-mbstring php7.4-mysql php7.4-readline php-xdebug php7.4-xml php7.4-zip php-imagick \
+        nginx nginx-extras\
+        python3-pip libfuse-dev \
+        nullmailer \
+        git nano \
+        mariadb-client-10.3 \
+        nodejs build-essential \
+        unzip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /init
 
@@ -41,7 +42,7 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # Install yas3fs
 # Note: using a specific commit from master because there are changes waiting for release
 # Note (20/03/2019) removed specific commit - now on master
-RUN pip install git+https://github.com/danilop/yas3fs.git
+RUN pip3 install git+https://github.com/danilop/yas3fs.git
 
 ###
 # CONFIGURE PACKAGES
@@ -64,11 +65,11 @@ RUN mv /tmp/conf/nginx/server.conf /etc/nginx/sites-available/ && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Configure php-fpm
-RUN mv /tmp/conf/php-fpm/php-fpm.conf /etc/php/7.3/fpm && \
-    mv /tmp/conf/php-fpm/php.ini /etc/php/7.3/fpm && \
-    mv /tmp/conf/php-fpm/pool.conf /etc/php/7.3/fpm/pool.d && \
-    rm /etc/php/7.3/fpm/pool.d/www.conf && \
-    cat /tmp/conf/php-fpm/xdebug.ini >> /etc/php/7.3/mods-available/xdebug.ini && \
+RUN mv /tmp/conf/php-fpm/php-fpm.conf /etc/php/7.4/fpm && \
+    mv /tmp/conf/php-fpm/php.ini /etc/php/7.4/fpm && \
+    mv /tmp/conf/php-fpm/pool.conf /etc/php/7.4/fpm/pool.d && \
+    rm /etc/php/7.4/fpm/pool.d/www.conf && \
+    cat /tmp/conf/php-fpm/xdebug.ini >> /etc/php/7.4/mods-available/xdebug.ini && \
     phpdismod xdebug
 
 # Configure cron tasks
