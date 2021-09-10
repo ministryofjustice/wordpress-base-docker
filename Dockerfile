@@ -19,7 +19,7 @@ RUN add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-mbstring php7.4-mysql php7.4-readline php-xdebug php7.4-xml php7.4-zip php-imagick \
+        php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-mbstring php7.4-mysql php7.4-readline php-xdebug php7.4-xml php7.4-zip php7.4-imagick \
         nginx nginx-extras\
         python3-pip libfuse-dev \
         nullmailer \
