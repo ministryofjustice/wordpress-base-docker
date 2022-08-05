@@ -19,7 +19,7 @@ RUN add-apt-repository -y ppa:ondrej/php && \
     apt-get update && \
     apt-get upgrade -y -o Dpkg::Options::="--force-confold" && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        php7.4-cli php7.4-curl php7.4-fpm php7.4-gd php7.4-mbstring php7.4-mysql php7.4-readline php-xdebug php7.4-xml php7.4-zip php7.4-imagick \
+        php8.0-cli php8.0-curl php8.0-fpm php8.0-gd php8.0-mbstring php8.0-mysql php8.0-readline php-xdebug php8.0-xml php8.0-zip php8.0-imagick \
         nginx nginx-extras\
         python3-pip libfuse-dev \
         nullmailer \
@@ -65,11 +65,11 @@ RUN mv /tmp/conf/nginx/server.conf /etc/nginx/sites-available/ && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
 # Configure php-fpm
-RUN mv /tmp/conf/php-fpm/php-fpm.conf /etc/php/7.4/fpm && \
-    mv /tmp/conf/php-fpm/php.ini /etc/php/7.4/fpm && \
-    mv /tmp/conf/php-fpm/pool.conf /etc/php/7.4/fpm/pool.d && \
-    rm /etc/php/7.4/fpm/pool.d/www.conf && \
-    cat /tmp/conf/php-fpm/xdebug.ini >> /etc/php/7.4/mods-available/xdebug.ini && \
+RUN mv /tmp/conf/php-fpm/php-fpm.conf /etc/php/8.0/fpm && \
+    mv /tmp/conf/php-fpm/php.ini /etc/php/8.0/fpm && \
+    mv /tmp/conf/php-fpm/pool.conf /etc/php/8.0/fpm/pool.d && \
+    rm /etc/php/8.0/fpm/pool.d/www.conf && \
+    cat /tmp/conf/php-fpm/xdebug.ini >> /etc/php/8.0/mods-available/xdebug.ini && \
     phpdismod xdebug
 
 # Configure cron tasks
